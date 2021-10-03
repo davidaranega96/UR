@@ -41,11 +41,6 @@ class Square():
 
 
 
-board = Board()
-
-print(board.squares)
-
-print(board)
 """
 for key,square in board.squares.items():
 	print(key, square.squarenumber, square.squareplayer, square.is_safe,"\n")

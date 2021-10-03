@@ -1,6 +1,6 @@
 import numpy as np
 
-list_shared_squares = [5,6,7,8,9,10,11,12]
+
 
 class Piece():
 	def __init__(self, player):

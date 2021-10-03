@@ -1,4 +1,11 @@
 from piece import *
+import configparser
+import json
+
+parser = configparser.ConfigParser()
+parser.read("config.ini")
+list_shared_squares = parser.get("ur_squares", "shared_squares")
+list_shared_squares = json.loads(list_shared_squares)
 
 class Player():
 	def __init__(self, player, name):
@@ -9,8 +16,11 @@ class Player():
 
 	def possible_moves(self, board, dice_result):
 		pieces = [i for i in self.pieces if i.completed == False]
+		possible_moves = []
 		for piece in pieces:
-			print(piece, dice_result, self.check_move_possible(board, piece, dice_result))
+			if self.check_move_possible(board, piece, dice_result):
+				possible_moves.append(piece)
+		return possible_moves
 
 	def check_move_possible(self, board, piece, dice_result):
 		squares = board.squares
