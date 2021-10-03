@@ -9,8 +9,10 @@ board = Board()
 player1 = Player('A','David')
 player2 = Player('B','Albert')	
 
+player1.possible_moves(board, dices.roll())
 
 
+"""
 for piece in player1.pieces:
 	print(piece)
 
@@ -29,3 +31,4 @@ for piece in player2.pieces:
 for piece in player1.pieces:
 	print(piece)
 
+"""

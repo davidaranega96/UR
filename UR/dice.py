@@ -7,7 +7,6 @@ class Dice:
 	def roll(self):
 		return 1 if random.randint(1,4)<3 else 0
 
-
 class Dices:
 	def __init__(self,number_of_dices):
 		self.dices = [Dice(i) for i in range(number_of_dices)]

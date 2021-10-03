@@ -27,12 +27,9 @@ class Piece():
 			return 0
 		elif squares[square_id].piece.player != self.player:
 			if squares[square_id].is_safe:
-				print("HEREEE")
 				return -1
 			else:
-				print("heree2")
 				squares[square_id].piece.death()
-				print(squares[square_id].piece.square)
 				squares[square_id].piece = self
 				self.square += dice_result
 				return 0
