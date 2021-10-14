@@ -12,14 +12,15 @@ class Player():
 		self.player = player #Either player 1 or player 2
 		self.name = name
 		self.score = 0
-		self.pieces = [Piece(player) for i in range(6)]
+		self.pieces = [Piece(player, i) for i in range(6)]
+		self.wins = 0
 
 	def possible_moves(self, board, dice_result):
 		pieces = [i for i in self.pieces if i.completed == False]
 		possible_moves = []
 		for piece in pieces:
-			if self.check_move_possible(board, piece, dice_result):
-				possible_moves.append(piece)
+			if piece.completed==False and self.check_move_possible(board, piece, dice_result):
+				possible_moves.append(piece.piece_id)
 		return possible_moves
 
 	def check_move_possible(self, board, piece, dice_result):
@@ -39,3 +40,8 @@ class Player():
 				return True
 		else:
 			return False
+
+	def reset(self):
+		self.score = 0
+		self.pieces = [Piece(self.player, i) for i in range(6)]
+		
