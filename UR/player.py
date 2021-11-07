@@ -40,6 +40,15 @@ class Player():
 				return True
 		else:
 			return False
+	def get_player_state(self):
+		pieces = [piece.square for piece in self.pieces]
+		pieces.append(self.score)
+		return pieces
+
+	def move_piece(self, piece_id, dice_result, board):
+		point = self.pieces[piece_id].move_piece(dice_result, board.squares)
+		return point
+
 
 	def reset(self):
 		self.score = 0

@@ -18,16 +18,17 @@ class Piece():
 
 	def move_piece(self, dice_result, squares):
 		if self.completed == True:
-			return -1
+			return 0
 		if dice_result == 0:
-			return -1
+			return 0
 		self.alive = True
 		#If the piece finishes the circuit
 		if self.square+dice_result>14:
 			squares[self.square_id].piece = None
+			self.square = 15
 			self.completed = True
 			self.alive = False
-			return 10
+			return 1
 
 		prev_square_id = str(self.square)+self.player if self.square not in list_shared_squares else str(self.square)+'S'
 		square_id = str(self.square+dice_result)+self.player if self.square+dice_result not in list_shared_squares else str(self.square+dice_result)+'S'
@@ -37,12 +38,12 @@ class Piece():
 			return 0
 		elif squares[square_id].piece.player != self.player:
 			if squares[square_id].is_safe:
-				return -1
+				return 0
 			else:
 				self.update_piece_and_square(square_id, dice_result, squares, killing=True)
 				return 0
 		else:
-			return -1
+			return 0
 
 	def update_piece_and_square(self, new_square_id, dice_result, squares, killing=False):
 		try:
@@ -54,7 +55,7 @@ class Piece():
 		self.square_id = new_square_id
 		if killing:
 			squares[new_square_id].piece.death()
-		squares[new_square_id].piece= self
+		squares[new_square_id].piece = self
 
 	def death(self):
 		self.square = 0

@@ -41,6 +41,24 @@ class Board():
 		self.squares = {}
 		self.squares.update(self.shared_squares)
 		self.squares.update(self.private_squares)
+
+	def get_board_state(self):
+		list_state = []
+		for key, square in self.squares.items():
+			"""
+			if square.piece:
+				list_state.append(square.square_id+square.piece.player+str(int(square.is_safe)))
+			else:
+				list_state.append(square.square_id+'E'+str(int(square.is_safe)))
+			"""
+			if square.piece:
+				if square.piece.player == 'A':
+					list_state.append(1)
+				elif square.piece.player == 'B':
+					list_state.append(2)
+			else:
+				list_state.append(0)
+		return list_state
 		
 class Square():
 	def __init__(self, square_number, square_player, safe=False):
