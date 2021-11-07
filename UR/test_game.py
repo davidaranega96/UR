@@ -23,16 +23,20 @@ def new_game():
 		game_over = turn(player1)
 		
 		if game_over:
+			"""
 			print(board.get_board_state())
 			print("Player 1 state", player1.get_player_state())
 			print("Player 2 state", player2.get_player_state())
+			"""
 			return player1.player
 
 		game_over = turn(player2)
 		if game_over:
+			"""
 			print(board.get_board_state())
 			print("Player 1 state", player1.get_player_state())
 			print("Player 2 state", player2.get_player_state())
+			"""
 			return player2.player
 		num_turns+=1
 
@@ -46,9 +50,9 @@ def turn(player):
 		return False
 
 	player_move = random.choice(player_possible_moves)
-	print(player_possible_moves, player_move, dice_result, player.player)
+	#print(player_possible_moves, player_move, dice_result, player.player)
 	player.score += player.move_piece(player_move, dice_result, board)
-	print(board, player.score)
+	#print(board, player.score)
 	#player.pieces[player_move].move_piece(dice_result, board.squares)
 
 	result = []
@@ -61,7 +65,7 @@ def turn(player):
 	return False
 
 num_turns = 5
-num_games = 1
+num_games = 1000
 num_turns_counter = 0
 avg_num_turns = 0
 
@@ -78,3 +82,16 @@ print("Player A won ",player1.wins," games")
 print("Player B won ",player2.wins," games")
 
 print(board)
+
+
+""" asdasd 
+
+
+dfasdf
+
+"""
+#asdasd
+
+
+
+
