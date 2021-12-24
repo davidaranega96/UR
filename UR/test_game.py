@@ -84,14 +84,6 @@ print("Player B won ",player2.wins," games")
 print(board)
 
 
-""" asdasd 
-
-
-dfasdf
-
-"""
-#asdasd
-
 
 
 
