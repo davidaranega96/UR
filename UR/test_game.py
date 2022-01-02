@@ -7,8 +7,9 @@ import random
 dices = Dices(4)
 board = Board()
 
-player1 = Player('A','David')
-player2 = Player('B','Albert')
+player1 = Player('A', 'David')
+player2 = Player('B', 'Albert')
+
 
 def new_game():
 	board.reset()
@@ -19,7 +20,7 @@ def new_game():
 	max_num_turns = 100
 	num_turns = 0
 
-	while num_turns<max_num_turns:
+	while num_turns < max_num_turns:
 		game_over = turn(player1)
 		
 		if game_over:
@@ -62,7 +63,7 @@ def turn(player):
 	return False
 
 num_turns = 5
-num_games = 1000
+num_games = 100
 num_turns_counter = 0
 avg_num_turns = 0
 

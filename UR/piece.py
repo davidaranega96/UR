@@ -1,39 +1,42 @@
 import numpy as np
-import configparser
 import json
+import os
+import config
 
 parser = configparser.ConfigParser()
-parser.read("config.ini")
-list_shared_squares = parser.get("ur_squares", "shared_squares")
-list_shared_squares = json.loads(list_shared_squares)
+parser.read(os.path.abspath(os.getcwd()) + "\\config.ini")
+list_shared_squares = config.config['shared_squares']
+
 
 class Piece():
 	def __init__(self, player, piece_id):
 		self.player = player
 		self.square = 0
 		self.square_id = None
-		self.alive = False		#If it is False, the piece has been eaten or has not left the square 0
-		self.completed = False	#If it is False, the piece still has to complete the circuit
+		self.alive = False		# If it is False, the piece has been eaten or has not left the square 0
+		self.completed = False	 # If it is False, the piece still has to complete the circuit
 		self.piece_id = piece_id
 
 	def move_piece(self, dice_result, squares):
-		if self.completed == True:
+		if self.completed:
 			return 0
 		if dice_result == 0:
 			return 0
 		self.alive = True
-		#If the piece finishes the circuit
-		if self.square+dice_result>14:
+		# If the piece finishes the circuit
+		if self.square+dice_result > 14:
 			squares[self.square_id].piece = None
 			self.square = 15
 			self.completed = True
 			self.alive = False
 			return 1
 
-		prev_square_id = str(self.square)+self.player if self.square not in list_shared_squares else str(self.square)+'S'
-		square_id = str(self.square+dice_result)+self.player if self.square+dice_result not in list_shared_squares else str(self.square+dice_result)+'S'
+		prev_square_id = str(self.square)+self.player if\
+			self.square not in list_shared_squares else str(self.square)+'S'
+		square_id = str(self.square+dice_result)+self.player if\
+			self.square+dice_result not in list_shared_squares else str(self.square+dice_result)+'S'
 		
-		if squares[square_id].piece == None:
+		if squares[square_id].piece is None:
 			self.update_piece_and_square(square_id, dice_result, squares)
 			return 0
 		elif squares[square_id].piece.player != self.player:
