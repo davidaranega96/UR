@@ -50,10 +50,7 @@ def turn(player):
 		return False
 
 	player_move = random.choice(player_possible_moves)
-	#print(player_possible_moves, player_move, dice_result, player.player)
 	player.score += player.move_piece(player_move, dice_result, board)
-	#print(board, player.score)
-	#player.pieces[player_move].move_piece(dice_result, board.squares)
 
 	result = []
 	for piece in player.pieces:
