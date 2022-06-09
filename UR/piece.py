@@ -1,5 +1,3 @@
-import numpy as np
-import json
 import os
 import config
 
@@ -8,7 +6,7 @@ parser.read(os.path.abspath(os.getcwd()) + "\\config.ini")
 list_shared_squares = config.config['shared_squares']
 
 
-class Piece():
+class Piece:
 	def __init__(self, player, piece_id):
 		self.player = player
 		self.square = 0

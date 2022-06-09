@@ -1,85 +1,47 @@
-import numpy as np
+from config import EMPTY_BOARD_CONFIGURATION
 
 
-class Board():
-	def __init__(self):
-		self.name = ''
-		list_shared_squares = [
-			[5, 6, 7, 8, 9, 10, 11, 12],
-			[False, False, False, True, False, False, False, False]
-			]
-		self.shared_squares = {
-			str(x) + 'S': Square(x, 'S', y) for x, y in zip(*list_shared_squares)
-			}
-		list_private_squares = [
-			[1, 2, 3, 4, 13, 14, 1, 2, 3, 4, 13, 14],
-			['A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B'],
-			[False, False, False, True, True, False, False, False, False, True, True,
-				False]
-			]
-		self.private_squares = {
-			str(x)+y: Square(x, y, z) for x, y, z in zip(*list_private_squares)
-			}
-		self.squares = {}
-		self.squares.update(self.shared_squares)
-		self.squares.update(self.private_squares)
+class Board:
+	BOARD_CONFIGURATION = EMPTY_BOARD_CONFIGURATION
 
-	def __str__(self):
-		board_string = ' _____ _____ _____'+'\n'\
-			'|'+self.display_string('13A')+'|'+self.display_string('12S')+'|'+self.display_string('13B')+'|\n'\
-			'|'+self.display_string('14A')+'|'+self.display_string('11S')+'|'+self.display_string('14B')+'|\n'\
-			+ '      '+'|'+self.display_string('10S')+'|\n'\
-			+ ' _____'+'|'+self.display_string('9S')+'|'+'_____\n'\
-			'|'+self.display_string('1A')+'|'+self.display_string('8S')+'|'+self.display_string('1B')+'|\n'\
-			'|'+self.display_string('2A')+'|'+self.display_string('7S')+'|'+self.display_string('2B')+'|\n'\
-			'|'+self.display_string('3A')+'|'+self.display_string('6S')+'|'+self.display_string('3B')+'|\n'\
-			'|'+self.display_string('4A')+'|'+self.display_string('5S')+'|'+self.display_string('4B')+'|'
-		return board_string	
+	def __init__(self, player_1, player_2):
+		self.player_1 = player_1
+		self.player_2 = player_2
+		self.load_empty_board(player_1, player_2)
 
-	def display_string(self, square_id):
-		if self.squares[square_id].piece is None:
-			return '_____'
-		else:
-			return '__'+str(self.squares[square_id].piece.player)+'__'
+	def load_empty_board(self, player_1, player_2):
+		# TODO: Working on this
+		safe_squares = EMPTY_BOARD_CONFIGURATION['safe_squares']
 
-	def reset(self):
-		list_shared_squares = [
-			[5, 6, 7, 8, 9, 10, 11, 12],
-			[False, False, False, True, False, False, False, False]
-			]
-		self.shared_squares = {
-			str(x)+'S': Square(x, 'S', y) for x, y in zip(*list_shared_squares)
-			}
-		list_private_squares = [
-			[1, 2, 3, 4, 13, 14, 1, 2, 3, 4, 13, 14],
-			['A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B'],
-			[False, False, False, True, True, False, False, False, False, True, True,
-				False]
-			]
-		self.private_squares = {
-			str(x)+y: Square(x, y, z) for x, y, z in zip(*list_private_squares)
-			}
-		self.squares = {}
-		self.squares.update(self.shared_squares)
-		self.squares.update(self.private_squares)
+	@staticmethod
+	def create_shared_squares(board_configuration):
+		shared_squares = []
+		for square_number in board_configuration['shared_squares']:
+			safe = square_number in board_configuration['safe_squares']
+			square = Square(square_number, safe)
+			shared_squares.append(square)
 
-	def get_board_state(self):
-		list_state = []
-		for key, square in self.squares.items():
-			if square.piece:
-				if square.piece.player == 'A':
-					list_state.append(1)
-				elif square.piece.player == 'B':
-					list_state.append(2)
-			else:
-				list_state.append(0)
-		return list_state
+		return shared_squares
 
 
-class Square():
-	def __init__(self, square_number, square_player, safe=False):
-		self.squarenumber = square_number
-		self.squareplayer = square_player 	 # S->shared suqare, A->Player1 square, B->Player2 square
-		self.square_id = str(self.squarenumber)+self.squareplayer
-		self.piece = None		
-		self.is_safe = safe		# False if it is a square where a piece can be killed
+class Square:
+	def __init__(self, square_number, safe=False):
+		self.square_number = square_number
+		self.piece = None
+		self.is_safe = safe
+
+	def __eq__(self, other):
+		if isinstance(self, other.__class__):
+			return self.square_number == other.square_number and self.piece == other.piece and self.is_safe is other.is_safe
+		return False
+
+
+class PrivateSquare(Square):
+	def __init__(self, square_number, player, safe=False):
+		super().__init__(square_number, safe)
+		self.player = player
+
+	def __eq__(self, other):
+		if isinstance(self, other.__class__):
+			return super().__eq__(other) and self.player == other.player
+		return False
